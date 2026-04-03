@@ -183,7 +183,7 @@ int main() {
                 current_user_buf_size = (sz > MAX_BUF_SIZE) ? MAX_BUF_SIZE : sz;
                 if (tx) setup_tx_system(&cfg, current_user_buf_size);
                 else if (rx) setup_rx_once(&cfg, current_user_buf_size);
-                printf("OK %d\n", current_user_buf_size);
+                printf("OK %lf %d\n", stored_f_hz, current_user_buf_size);
             }
         }
         else if (c == 'P') {
@@ -191,11 +191,11 @@ int main() {
             if (scanf(" %d", &n) == 1) {
                 for(int i = 0; i < n; i++) {
                     uint32_t val;
-                    scanf(" %x", &val);
+                    scanf(" %4x", &val);
                     sample_buffer[i] = (uint16_t)val;
                 }
                 enable_tx_continuous(&cfg);
-                printf("TX_OK\n");
+                printf("OK\n");
             }
         }
         else if (c == 'G') {
@@ -209,7 +209,7 @@ int main() {
         }
         else if (c == 'X') {
             stop_system(&cfg);
-            printf("RESET_OK\n");
+            printf("RESET\n");
         }
     }
 }
