@@ -1,0 +1,17 @@
+.program parallel_tx
+.side_set 1             ; GPIO 16 is the clock
+
+.wrap_target
+    out pins, 16  side 0 ; Prepare data, Clock Low
+    nop           side 1 ; Rising Edge: DAC latches stable data here
+.wrap
+
+.program parallel_rx
+.side_set 1
+
+.wrap_target
+    nop           side 0 ; Clock Low
+    ; nop           side 1 ; disabled for now, if Pi is reading too fast before ADC delivers data, add this line back
+    in pins, 16   side 1 ; Sample data while clock is High
+    ; push block ; disabled for now, if data is not push to RAM, enable this
+.wrap
