@@ -24,7 +24,7 @@ class PicoController:
         print(f"[Pico] Freq: {self.actual_freq} Hz | Buffer: {self.actual_buf_size}")
 
     # =========================================================
-    # 🔹 Core helpers
+    # Core helpers
     # =========================================================
     def _readline_blocking(self, expect=None):
         """Read full line, retry until valid"""
@@ -46,7 +46,7 @@ class PicoController:
         return buf
 
     # =========================================================
-    # 📥 GET SAMPLES
+    # GET SAMPLES
     # =========================================================
     def getsamples(self, n_samples):
         if n_samples > self.actual_buf_size:
@@ -75,7 +75,7 @@ class PicoController:
         return data
 
     # =========================================================
-    # 📤 PUT SAMPLES
+    # PUT SAMPLES
     # =========================================================
     def putsamples(self, data):
         # map from [-1, 1] → [0, 65535]
@@ -90,7 +90,7 @@ class PicoController:
         return resp
 
     # =========================================================
-    # 📏 GET BUFFER LENGTH
+    # GET BUFFER LENGTH
     # =========================================================
     def get_buflen(self):
         self.ser.write(b"L\n")
@@ -98,7 +98,7 @@ class PicoController:
         return int(resp)
 
     # =========================================================
-    # 🔁 RESET
+    # RESET
     # =========================================================
     def reset(self):
         self.ser.write(b"X\n")
