@@ -72,7 +72,10 @@ class PicoController:
             dtype='>u2'   # big-endian unsigned 16-bit
         )
 
-        return data
+        # return data
+        # map from [0, 65535] → [-1, 1]
+        normalized_data = (data / 65535.0) * 2.0 - 1.0
+        return normalized_data
 
     # =========================================================
     # PUT SAMPLES
@@ -113,24 +116,26 @@ class PicoController:
 
 if __name__ == "__main__":
     # pico = PicoController(
-    #     sample_rate_hz=10_000_000,  # ✅ Hz now
+    #     sample_rate_hz=10_000,
     #     transmit=False,
     #     receive=True,
     #     buf_size=100000,
-    #     port='/dev/tty.usbmodem21101'
+    #     port='/dev/tty.usbmodem21301'
     # )
 
-    # samples = pico.getsamples(100000)
+    # samples = pico.getsamples(10000)
 
-    # print("First 10:", samples[:10])
+    # for i in range(10000):
+    #     print(f"{samples[i]},", end=" ")
 
     # pico.reset()
+
     pico = PicoController(
-        sample_rate_hz=1_000_000,  # ✅ Hz now
+        sample_rate_hz=1_000_000,
         transmit=True,
         receive=False,
         buf_size=10000,
-        port='/dev/tty.usbmodem21101'
+        port='/dev/tty.usbmodem21301'
     )
 
     wave = np.array([-1, 1] * 5000)

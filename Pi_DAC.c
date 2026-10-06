@@ -15,7 +15,7 @@
 uint16_t sample_buffer[MAX_BUF_SIZE] __attribute__((aligned(4)));
 
 // This variable must hold the starting address of the buffer
-static uint32_t buffer_base_addr = (uint32_t)sample_buffer;
+static uint32_t buffer_base_addr = (uint32_t)&sample_buffer;
 volatile int current_user_buf_size = MAX_BUF_SIZE;
 
 int data_chan, ctrl_chan;
@@ -74,6 +74,9 @@ void setup_tx_system(system_cfg_t *cfg, int size) {
 
     // Shift out 16 bits, autopull enabled (critical for continuous DMA)
     sm_config_set_out_shift(&c, true, true, 16);
+
+    // join tx and rx fifo buffer
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
 
     pio_sm_init(cfg->pio, cfg->sm, cfg->offset_tx, &c);
     set_clock_freq_hz(cfg, stored_f_hz);
